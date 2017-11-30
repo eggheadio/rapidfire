@@ -69,7 +69,7 @@ module Rapidfire
     end
 
     def index_location
-      rapidfire.survey_questions_url(@survey)
+      survey_questions_url(@survey)
     end
 
     def question_params
