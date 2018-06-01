@@ -13,10 +13,14 @@ module Rapidfire
     def create
       @attempt_builder = AttemptBuilder.new(attempt_params)
 
-      if @attempt_builder.save
-        redirect_to after_answer_path_for
-      else
-        render :new
+      respond_to do |format|
+        if @attempt_builder.save
+          format.html { redirect_to after_answer_path_for }
+          format.json { render json: @attempt_builder, status: 201 }
+        else
+          format.html { render :new }
+          format.json { render json: @attempt_builder.errors, status: 422 }
+        end
       end
     end
 
@@ -27,10 +31,14 @@ module Rapidfire
     def update
       @attempt_builder = AttemptBuilder.new(attempt_params)
 
-      if @attempt_builder.save
-        redirect_to surveys_path
-      else
-        render :edit
+      respond_to do |format|
+        if @attempt_builder.save
+          format.html { redirect_to surveys_path }
+          format.json { render json: @attempt_builder, status: 201 }
+        else
+          format.html { render :edit }
+          format.json { render json: @attempt_builder, status: 422 }
+        end
       end
     end
 
