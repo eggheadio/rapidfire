@@ -1,5 +1,6 @@
 module Rapidfire
   class AttemptsController < Rapidfire::ApplicationController
+    protect_from_forgery with: :null_session
     if Rails::VERSION::MAJOR ==  5
       before_action :find_survey!
     else
@@ -16,10 +17,10 @@ module Rapidfire
       respond_to do |format|
         if @attempt_builder.save
           format.html { redirect_to after_answer_path_for }
-          format.json { render json: @attempt_builder, status: 201 }
+          format.json { render json: @attempt_builder.to_model, include: :answers, status: 201 }
         else
           format.html { render :new }
-          format.json { render json: @attempt_builder.errors, status: 422 }
+          format.json { render json: @attempt_builder.to_model.errors.messages, status: 422 }
         end
       end
     end
@@ -37,7 +38,7 @@ module Rapidfire
           format.json { render json: @attempt_builder, status: 201 }
         else
           format.html { render :edit }
-          format.json { render json: @attempt_builder, status: 422 }
+          format.json { render json: @attempt_builder.errors, status: 422 }
         end
       end
     end
