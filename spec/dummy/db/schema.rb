@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_05_143543) do
+ActiveRecord::Schema.define(version: 2018_06_05_142534) do
 
   create_table "rapidfire_answers", force: :cascade do |t|
     t.integer "attempt_id"
@@ -54,9 +54,7 @@ ActiveRecord::Schema.define(version: 2018_06_05_143543) do
     t.datetime "updated_at", null: false
     t.string "surveyable_type"
     t.integer "surveyable_id"
-    t.integer "user_id"
     t.index ["surveyable_type", "surveyable_id"], name: "index_rapidfire_surveys_on_surveyable_type_and_surveyable_id"
-    t.index ["user_id"], name: "index_rapidfire_surveys_on_user_id"
   end
 
 end
