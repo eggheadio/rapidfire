@@ -20,14 +20,14 @@ module Rapidfire
 
     def create
       @survey = Survey.new(survey_params)
-      if @survey.save
-        respond_to do |format|
+      respond_to do |format|
+        if @survey.save
           format.html { redirect_to surveys_path }
+          format.json { render json: @survey, status: 201 }
           format.js
-        end
-      else
-        respond_to do |format|
+        else
           format.html { render :new }
+          format.json { render json: @survey.errors, status: 422 }
           format.js
         end
       end
@@ -39,6 +39,7 @@ module Rapidfire
 
       respond_to do |format|
         format.html { redirect_to surveys_path }
+        format.json { head 204 }
         format.js
       end
     end

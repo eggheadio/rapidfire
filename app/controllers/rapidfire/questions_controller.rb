@@ -12,6 +12,11 @@ module Rapidfire
 
     def index
       @questions = @survey.questions
+
+      respond_to do |format|
+        format.html { render :index }
+        format.json { render json: @questions }
+      end
     end
 
     def new
@@ -37,6 +42,7 @@ module Rapidfire
       @question.destroy
       respond_to do |format|
         format.html { redirect_to index_location }
+        format.json { head 204 }
         format.js
       end
     end
@@ -47,14 +53,14 @@ module Rapidfire
       @question_form = QuestionForm.new(params)
       @question_form.save
 
-      if @question_form.errors.empty?
-        respond_to do |format|
+      respond_to do |format|
+        if @question_form.errors.empty?
           format.html { redirect_to index_location }
+          format.json { render json: @question_form, status: 201 }
           format.js
-        end
-      else
-        respond_to do |format|
+        else
           format.html { render on_error_key.to_sym }
+          format.json { render json: @question_form.errors, status: 422 }
           format.js
         end
       end
